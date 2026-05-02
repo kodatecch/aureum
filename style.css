@@ -3,8 +3,8 @@
 html { font-size: 16px; }
 body { font-family: 'DM Sans', 'Inter', sans-serif; color: #1b1b1b; background: var(--cream); overflow-x: hidden; }
 main { display: block; position: relative; }
-.s-wrap { min-height: 200vh; position: relative; }
-.s-wrap:not(:first-child) { margin-top: -100vh; }
+.s-wrap { min-height: 300vh; position: relative; }
+.s-wrap:not(:first-child) { margin-top: -150vh; }
 .s-wrap:nth-child(1) { z-index: 5; }
 .s-wrap:nth-child(2) { z-index: 4; }
 .s-wrap:nth-child(3) { z-index: 3; }
@@ -321,7 +321,30 @@ ul { list-style: none; }
 /* ─── SYLLABUS ───────────────────────────────────────────── */
 .syllabus { min-height: 100vh; display: flex; background: var(--cream); padding: 180px 0 120px; position: sticky; top: 0; overflow: hidden; border-radius: 0 0 60px 60px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
 .syllabus .wrap { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
-.syllabus-img { width:100%; max-width:480px; }
+.syllabus-img-wrap { position: relative; }
+.syllabus-img { width:100%; max-width:480px; position: relative; z-index: 2; }
+
+/* Syllabus floating icons */
+.syllabus-icon13,
+.syllabus-icon17,
+.syllabus-icon16,
+.syllabus-logodark,
+.syllabus-graph {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  animation: floatSyllabus 6s ease-in-out infinite;
+}
+.syllabus-icon13 { top: 5%; right: 5%; width: 40px; animation-delay: 0s; }
+.syllabus-icon17 { top: 25%; left: 5%; width: 50px; animation-delay: 1s; }
+.syllabus-icon16 { bottom: 20%; right: 5%; width: 45px; animation-delay: 2s; }
+.syllabus-logodark { bottom: 5%; left: 15%; width: 60px; animation-delay: 3s; }
+.syllabus-graph { top: 10%; left: -10%; width: 120px; animation-delay: 4s; }
+
+@keyframes floatSyllabus {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
 .syllabus-right h2 { font-size:clamp(34px,4vw,52px); font-weight:700; margin-bottom:48px; }
 .syl-item { display:flex; gap:20px; padding-bottom:36px; }
 .syl-num { width:52px; height:52px; background:var(--teal); color:#fff; display:flex; align-items:center; justify-content:center; border-radius:50%; font-weight:800; }
@@ -369,7 +392,34 @@ ul { list-style: none; }
   transition: all 0.3s;
   overflow: hidden;
 }
-.course-card:hover { transform: translateY(-8px); }
+/* White circle animation from bottom-left */
+.course-card::before {
+  content: "";
+  position: absolute;
+  bottom: -50px;
+  left: -50px;
+  width: 100px;
+  height: 100px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  transform: scale(0);
+  transform-origin: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+.course-card:hover::before {
+  transform: scale(15); /* Large enough to cover the whole card */
+}
+.course-card:hover { box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+
+/* Ensure content stays above the white background */
+.course-card > div,
+.course-illus,
+.course-type,
+.course-link {
+  position: relative;
+  z-index: 2;
+}
 
 .course-type {
   font-size: 14px;
@@ -406,6 +456,7 @@ ul { list-style: none; }
   gap: 8px;
   position: relative;
   z-index: 2;
+  z-index: 2;
   transition: color 0.3s;
 }
 .course-link:hover { color: var(--teal-dk); }
@@ -425,7 +476,8 @@ ul { list-style: none; }
 }
 
 /* ─── REVIEWS ────────────────────────────────────────────── */
-.reviews { min-height: 100vh; display: flex; background: var(--cream); padding: 180px 0 120px; position: sticky; top: 0; overflow: hidden; border-radius: 0 0 60px 60px; box-shadow: 0 20px 50px rgba(0,0,0,0.08); }
+.reviews { min-height: 100vh; display: flex; align-items: center; background: var(--cream); padding: 120px 0; position: sticky; top: 0; overflow: hidden; border-radius: 0 0 60px 60px; box-shadow: 0 20px 50px rgba(0,0,0,0.08); }
+.reviews h2 { font-size: clamp(40px, 6vw, 72px); font-weight: 700; text-align: center; margin-bottom: 80px; color: var(--dark); width: 100%; }
 .reviews-grid { display:grid; grid-template-columns:repeat(3, 1fr); border-left: 2px dashed var(--cream-mid); }
 .review-col { padding:0 40px; border-right:2px dashed var(--cream-mid); text-align:center; }
 .review-ava-blob { width:100px; height:100px; border-radius:50%; background:#e8c8bc; margin: 0 auto 28px; overflow:hidden; }
@@ -433,10 +485,10 @@ ul { list-style: none; }
 
 /* ─── FAQ ────────────────────────────────────────────────── */
 .faq {
-    min-height: 100vh;
+    min-height: 80vh;
     display: flex;
     background: linear-gradient(135deg, #4e8f9a 0%, #6aadb8 40%, #a0c0c8 80%, #c8b8a8 100%);
-    padding: 180px 0 120px;
+    padding: 120px 0 80px;
     position: sticky;
   top: 0;
   overflow: hidden;
@@ -462,13 +514,14 @@ ul { list-style: none; }
 }
 
 /* LEFT column */
-.faq-left { padding: 60px 0; }
+.faq-left { padding: 40px 0; }
 .faq-left h2 {
   font-size: clamp(38px, 4.5vw, 62px);
   font-weight: 700;
   color: #fff;
   line-height: 1.08;
   margin-bottom: 18px;
+  white-space: nowrap;
 }
 .faq-left > p {
   font-size: 15px;
@@ -514,8 +567,28 @@ ul { list-style: none; }
   transition: all 0.3s;
   white-space: nowrap;
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
 }
-.faq-btn:hover { background: #dfab8d; transform: translateY(-2px); }
+.faq-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 300%; aspect-ratio: 1;
+  background: rgba(255,255,255,0.85);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+.faq-btn:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+.faq-btn span {
+  position: relative;
+  z-index: 1;
+}
+.faq-btn:hover { transform: translateY(-2px); }
 
 /* RIGHT column — phone card + decorative elements */
 .faq-right {
@@ -735,7 +808,7 @@ ul { list-style: none; }
 
 .modal-top {
   margin-bottom: 20px;
-  border-bottom: 1px solid var(--cream-mid);
+  border-bottom: 1px solid var(--dark);
   padding-bottom: 30px;
   text-align: center;
 }
@@ -767,7 +840,7 @@ ul { list-style: none; }
   position: relative;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--cream-mid);
+  border-bottom: 1px solid var(--dark);
   padding-bottom: 15px;
 }
 .modal-input {
@@ -877,17 +950,22 @@ ul { list-style: none; }
   left: -16%;
   width: clamp(70px, 11%, 120px);
   z-index: 3;
-  transform: scaleX(-1); /* espelha para apontar para a direita */
   animation: floatArm 6s ease-in-out infinite;
 }
 @keyframes floatArm {
-  0%, 100% { transform: scaleX(-1) translateY(0); }
-  50%       { transform: scaleX(-1) translateY(-8px); }
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
 }
 
-/* Avião decorativo — removido a pedido */
+/* Avião decorativo — reativado */
 .hero-illus-plane {
-  display: none;
+  display: block;
+  position: absolute;
+  top: 25%;
+  right: -5%;
+  width: clamp(60px, 10%, 100px);
+  z-index: 3;
+  animation: floatPlaneHero 5s ease-in-out infinite;
 }
 @keyframes floatPlaneHero {
   0%, 100% { transform: rotate(-8deg) translateY(0); }
@@ -907,6 +985,21 @@ ul { list-style: none; }
 @keyframes floatPlant1 {
   0%, 100% { transform: translateY(0) rotate(-2deg); }
   50%       { transform: translateY(-8px) rotate(2deg); }
+}
+
+/* Círculos abstratos — parte superior esquerda */
+.hero-illus-abstract {
+  display: block;
+  position: absolute;
+  top: 15%;
+  left: -5%;
+  width: clamp(70px, 12%, 130px);
+  z-index: 1;
+  animation: floatAbstract 8s ease-in-out infinite;
+}
+@keyframes floatAbstract {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-12px) rotate(3deg); }
 }
 
 /* Planta 2 — canto inferior direito */
