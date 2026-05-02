@@ -1,0 +1,39 @@
+<svg width="120" height="80" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .line {
+      fill: none;
+      stroke: #0F86A1;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      animation: drawLine 3s linear infinite;
+    }
+    .point {
+      fill: #1B1B1B;
+      opacity: 0;
+      animation: showPoint 3s linear infinite;
+    }
+    .p1 { animation-delay: 0s; }
+    .p2 { animation-delay: 0.5s; }
+    .p3 { animation-delay: 1.0s; }
+    .p4 { animation-delay: 1.5s; }
+
+    @keyframes drawLine {
+      0% { stroke-dashoffset: 200; }
+      50% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes showPoint {
+      0%, 10% { opacity: 0; transform: scale(0.5); }
+      15%, 50% { opacity: 1; transform: scale(1); }
+      50.1%, 100% { opacity: 1; }
+    }
+  </style>
+  <polyline class="line" points="15,65 45,35 75,55 105,25" />
+  <circle class="point p1" cx="15" cy="65" r="4" />
+  <circle class="point p2" cx="45" cy="35" r="4" />
+  <circle class="point p3" cx="75" cy="55" r="4" />
+  <circle class="point p4" cx="105" cy="25" r="4" />
+</svg>
